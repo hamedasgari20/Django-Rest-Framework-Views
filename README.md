@@ -1,5 +1,14 @@
 # Django Rest Framework Views
 
+__APIView__ class is a base for all the views that you might choose to use in your DRF application. 
+- Extending __APIView__ offers the most freedom, but it also leaves a lot more work for you. It's a great choice if you need to have control over every aspect of the view or if you have very complicated views.
+- With the __generic view__ classes, you can develop faster and still have quite a bit of control over the API endpoints.
+- With __ModelViewSets__, you can get an API stood up with five lines of codes
+
+
+
+
+
 To quickly see the differences between them, let's look at example of all three in action achieving the same thing.
 
 In the following we wants to do the below actions by different views:
@@ -8,7 +17,12 @@ In the following we wants to do the below actions by different views:
 - Creating a new item
 - Retrieving, updating, and deleting a single item
 
-## APIViews
+## APIViews 
+[Read more in DRF documentation part 1](https://www.django-rest-framework.org/api-guide/views/)
+
+[Read more in DRF documentation part 2](https://www.django-rest-framework.org/tutorial/2-requests-and-responses/#pulling-it-all-together)
+
+
 Here's how you can accomplish this by extending __APIView__:
 ```
 class ItemsList(APIView):
@@ -58,7 +72,56 @@ urlpatterns = [
 ]
 
 ```
+#### Class-based Views
+Here's a __Class-based View__ that allows users to delete all the items at once:
+```angular2html
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+class ItemsNotDone(APIView):
+
+    permission_classes = [IsAuthenticated]  # policy attribute
+    renderer_classes = [JSONRenderer]       # policy attribute
+
+    def get(self, request):
+
+        user_count = Item.objects.filter(done=False).count()
+        content = {'not_done': user_count}
+
+        return Response(content)
+
+```
+
+
+#### Function-based Views
+If you're writing a view in the form of a function, you'll need to use the __@api_view__ decorator.
+```angular2html
+from rest_framework.decorators import api_view, permission_classes, renderer_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.renderers import JSONRenderer
+from rest_framework.response import Response
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])  # policy decorator
+@renderer_classes([JSONRenderer])       # policy decorator
+def items_not_done(request):
+    user_count = Item.objects.filter(done=False).count()
+    content = {'not_done': user_count}
+
+    return Response(content)
+
+```
+
+
+
 ## Generic Views
+[Read more in DRF documentation part 1](https://www.django-rest-framework.org/api-guide/generic-views/)
+
+[Read more in DRF documentation part 2](https://www.django-rest-framework.org/tutorial/3-class-based-views/)
+
+
 Here's how you do the same thing with concrete __generic views__:
 ```angular2html
 class ItemsListGeneric(ListCreateAPIView):
@@ -83,6 +146,11 @@ urlpatterns = [
 
 ```
 ## ViewSets
+[Read more in DRF documentation part 1](https://www.django-rest-framework.org/api-guide/viewsets/)
+
+[Read more in DRF documentation part 2](https://www.django-rest-framework.org/tutorial/6-viewsets-and-routers/)
+
+
 And here are the lines that you need with __ModelViewSet__:
 ```angular2html
 class ItemsViewSet(ModelViewSet):
@@ -105,3 +173,5 @@ urlpatterns = [
 ```
 
 
+
+__NOTE:__ This article is under development and will be improved ...
