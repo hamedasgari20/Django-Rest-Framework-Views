@@ -146,6 +146,9 @@ urlpatterns = [
 
 ```
 ## ViewSets
+__ViewSet__ classes remove the need for additional lines of code and, when coupled with __routers__, help keep your URLs consistent. The most significant advantage of ViewSets is that the URL construction is handled automatically (with a router class).
+
+
 [Read more in DRF documentation part 1](https://www.django-rest-framework.org/api-guide/viewsets/)
 
 [Read more in DRF documentation part 2](https://www.django-rest-framework.org/tutorial/6-viewsets-and-routers/)
@@ -171,6 +174,15 @@ urlpatterns = [
     path('', include(router.urls)),
 ]
 ```
+There are four types of __ViewSets__, from the most basic to the most powerful:
+
+1- ViewSet
+
+2- GenericViewSet
+
+3- ReadOnlyModelViewSet
+
+4- ModelViewSet
 
 
 
