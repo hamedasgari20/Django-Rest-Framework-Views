@@ -1,4 +1,5 @@
 # Django Rest Framework Views
+ ![Django Rest Framework Views](download.jpg)
 
 __APIView__ class is a base for all the views that you might choose to use in your DRF application. 
 - Extending __APIView__ offers the most freedom, but it also leaves a lot more work for you. It's a great choice if you need to have control over every aspect of the view or if you have very complicated views.
